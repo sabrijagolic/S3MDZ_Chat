@@ -10,26 +10,28 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace S3MDZ_Chat
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Chat.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Chat : Window
     {
-        public MainWindow()
+        public Chat()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Send(object sender, RoutedEventArgs e)
         {
-            Chat chat = new Chat();
-            chat.Show();
-            this.Close();
+
+        }
+
+        private void Button_EndConnection(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
