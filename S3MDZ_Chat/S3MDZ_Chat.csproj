@@ -71,7 +71,7 @@
       <DependentUpon>Chat.xaml</DependentUpon>
     </Compile>
     <Compile Include="Encription\AES.cs" />
-    <Compile Include="Encription\Diffie-Hellman.cs" />
+    <Compile Include="Encription\DiffieHellman.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

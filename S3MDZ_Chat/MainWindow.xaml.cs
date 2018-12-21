@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using S3MDZ_Chat.Encription;
 
 namespace S3MDZ_Chat
 {
@@ -20,13 +21,17 @@ namespace S3MDZ_Chat
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string IPAddress;
+
         public MainWindow()
         {
             InitializeComponent();
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            IPAddress = IPTextBox.Text; 
             Chat chat = new Chat();
             chat.Show();
             this.Close();

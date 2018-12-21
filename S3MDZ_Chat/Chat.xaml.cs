@@ -1,4 +1,5 @@
-﻿using System;
+﻿using S3MDZ_Chat.Encription;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,11 +23,24 @@ namespace S3MDZ_Chat
         public Chat()
         {
             InitializeComponent();
+            DiffieHellman alice = new DiffieHellman("alice");
+            DiffieHellman bob = new DiffieHellman("bob");
+
+            AES aliceAES = new AES();
+            AES bobAES = new AES();
+
+            aliceAES.InitializeEncryptor(alice,bob);
+            bobAES.InitializeEncryptor(bob,alice);
+            chatBlockMain.Text = aliceAES.EncryptMessage("OMEGALUL");
+            chatBlockMain.Text = bobAES.DecryptMessage(chatBlockMain.Text);
+            
+            
         }
 
         private void Button_Send(object sender, RoutedEventArgs e)
         {
-
+           
+            //chatBlockMain.Text = AES.EncryptMessage(textBoxUserInput.Text);
         }
 
         private void Button_EndConnection(object sender, RoutedEventArgs e)
