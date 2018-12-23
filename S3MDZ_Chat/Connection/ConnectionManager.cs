@@ -28,6 +28,7 @@ namespace S3MDZ_Chat.Connection
             ipEndPointReceive = new IPEndPoint(IPAddress.Parse(testIp), 0);
             Byte[] sendBytes = Encoding.ASCII.GetBytes("Ovo je nesto");
             udpClient.Send(sendBytes, sendBytes.Length, ipEndPointSend);
+            guestListener.Abort();
         }
 
         public static void InitializeConnectionManager(string testIp)
