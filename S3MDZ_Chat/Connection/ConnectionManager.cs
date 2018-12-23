@@ -17,18 +17,25 @@ namespace S3MDZ_Chat.Connection
         private static UdpClient udpClient;
         private static UdpClient udpClientListener;
         private static Thread chatListener;
+        private static Thread guestListener;
         private static IPEndPoint ipEndPointSend;
         private static IPEndPoint ipEndPointReceive;
-        public static void InitializeConnectionManager(string testIp)
+
+
+        public static void StartChat(string testIp)
         {
-            udpClient = new UdpClient();
-            udpClientListener = new UdpClient(11000);
             ipEndPointSend = new IPEndPoint(IPAddress.Parse(testIp), 11000);
             ipEndPointReceive = new IPEndPoint(IPAddress.Parse(testIp), 0);
         }
-        public static void Send()
+
+        public static void InitializeConnectionManager(string testIp)
         {
-            Byte[] sendBytes = Encoding.ASCII.GetBytes("Is anybody there?");
+            ipEndPointSend = new IPEndPoint(IPAddress.Parse(testIp), 11000);
+        }
+
+        public static void Send(string text)
+        {
+            Byte[] sendBytes = Encoding.ASCII.GetBytes(text);
             try
             {
                 udpClient.Send(sendBytes, sendBytes.Length, ipEndPointSend);
@@ -38,53 +45,61 @@ namespace S3MDZ_Chat.Connection
                 Console.WriteLine(e.ToString());
             }
         }
-        
-        
-        public async static void Receive()
+
+        public static void ListenForRemoteGuest(Action onChartStarted)
         {
-            ThreadStart start = new ThreadStart(Receiver);
+            udpClient = new UdpClient();
+            udpClientListener = new UdpClient(11000);
+            ThreadStart start = new ThreadStart(() =>
+            {
+                IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
+
+                while (true)
+                {
+                    byte[] data = udpClientListener.Receive(ref endPoint);
+                    string message = Encoding.ASCII.GetString(data);
+                    Console.WriteLine(message);
+                    Console.WriteLine(endPoint.Address.ToString());
+                    ipEndPointReceive = new IPEndPoint(IPAddress.Parse(endPoint.Address.ToString()), 0);
+                    InitializeConnectionManager(endPoint.Address.ToString());
+                    onChartStarted();
+                }
+            });
+            guestListener = new Thread(start);
+            guestListener.IsBackground = true;
+            guestListener.Start();
+        }
+
+
+        public static void ReceiveMessage(Action<string> messageReceived)
+        {
+            ThreadStart start = new ThreadStart(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        // Blocks until a message returns on this socket from a remote host.
+                        byte[] receiveBytes = udpClientListener.Receive(ref ipEndPointReceive);
+
+                        string returnData = Encoding.ASCII.GetString(receiveBytes);
+                        messageReceived(returnData.ToString());
+                        Console.WriteLine("This is the message you received " +
+                                                     returnData.ToString());
+                        Console.WriteLine("This message was sent from " +
+                                                    ipEndPointReceive.Address.ToString() +
+                                                    " on their port number " +
+                                                    ipEndPointReceive.Port.ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                }
+            });
             chatListener = new Thread(start);
             chatListener.IsBackground = true;
             chatListener.Start();
-
-
-
-            try
-            {
-                // Blocks until a message returns on this socket from a remote host.
-                byte[] receiveBytes = udpClientListener.ReceiveAsync().Result.Buffer;
-
-                string returnData = Encoding.ASCII.GetString(receiveBytes);
-
-                Console.WriteLine("This is the message you received " +
-                                             returnData.ToString());
-                Console.WriteLine("This message was sent from " +
-                                            ipEndPointReceive.Address.ToString() +
-                                            " on their port number " +
-                                            ipEndPointReceive.Port.ToString());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
         }
-        private static void Receiver()
-        {
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, port);
-            
-
-            while (true)
-            {
-                byte[] data = udpClientListener.Receive(ref endPoint);
-                string message = Encoding.ASCII.GetString(data);
-                MessageReceived(message);
-                
-            }
-        }
-        private void MessageReceived(string message)
-        {
-            Console.WriteLine(message);
-        }
-
     }
 }

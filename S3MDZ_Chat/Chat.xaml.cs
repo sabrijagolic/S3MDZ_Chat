@@ -29,21 +29,23 @@ namespace S3MDZ_Chat
             //chatBlockMain.Text = AES.EncryptMessage("OMEGALUL");
             //chatBlockMain.Text = AES.DecryptMessage(chatBlockMain.Text);         
             //ConnectionManager.InitializeConnectionManager();
-            //ConnectionManager.Receive();
-
-        
+            ConnectionManager.ReceiveMessage(MessageReceived);
         }
 
         private void Button_Send(object sender, RoutedEventArgs e)
         {
-           
-            //chatBlockMain.Text = AES.EncryptMessage(textBoxUserInput.Text);
-            //ConnectionManager.Send();
+            chatBlockMain.Text += "\n Ja: " + textBoxUserInput.Text; // AES.EncryptMessage(textBoxUserInput.Text);
+            ConnectionManager.Send(textBoxUserInput.Text);
         }
 
         private void Button_EndConnection(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void MessageReceived(string message)
+        {
+            chatBlockMain.Text += "\n  Neko:" +  message;
         }
     }
 }

@@ -23,25 +23,26 @@ namespace S3MDZ_Chat
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+
 
         public MainWindow()
         {
             InitializeComponent();
-            
-            ConnectionManager.Receive();
-            
-            
-            
+            ConnectionManager.ListenForRemoteGuest(StartChat);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ConnectionManager.InitializeConnectionManager(IPTextBox.Text);
-            ConnectionManager.Send();
+            ConnectionManager.StartChat(IPTextBox.Text);
+            StartChat();
+        }
+        private void StartChat()
+        {
+            Console.WriteLine("Waazaaaaaap");
             Chat chat = new Chat();
             chat.Show();
             this.Close();
+
         }
     }
 }
