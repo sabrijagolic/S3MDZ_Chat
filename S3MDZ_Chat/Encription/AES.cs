@@ -19,7 +19,7 @@ namespace S3MDZ_Chat.Encription
               
         }
 
-        public void InitializeEncryptor(DiffieHellman alice, DiffieHellman bob)
+        public static void InitializeEncryptor(byte[] _publicKey)
         {            
             //var key = CngKey.Import(diffieHellman._publicKey, CngKeyBlobFormat.EccPublicBlob);
             //var derivedKey = diffieHellman.diffieHellman.DeriveKeyMaterial(key);            
@@ -28,17 +28,15 @@ namespace S3MDZ_Chat.Encription
             {
                 BlockSize = 128,
                 KeySize = 256,
-                Key = alice.diffieHellman.DeriveKeyMaterial(CngKey.Import(bob._publicKey, CngKeyBlobFormat.EccPublicBlob)),
+                Key = DiffieHellman.diffieHellman.DeriveKeyMaterial(CngKey.Import(_publicKey, CngKeyBlobFormat.EccPublicBlob)),
                 //IV = System.Text.ASCIIEncoding.ASCII.GetBytes(_IV),
                 Padding = PaddingMode.PKCS7,
                 Mode = CipherMode.CBC
             };
-            Console.Write(alice.name);
-            Console.WriteLine(Convert.ToBase64String(_aes.IV));
-
+            
         }
 
-        public  string EncryptMessage(string _userInput)
+        public static string EncryptMessage(string _userInput)
         {
             byte[] plainTextBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(_userInput);
             MemoryStream ciphertext = new MemoryStream();
@@ -51,23 +49,17 @@ namespace S3MDZ_Chat.Encription
             return Convert.ToBase64String(ciphertext.ToArray());
         }
 
-        public  string DecryptMessage(string _encryptedInput)
+        public static string DecryptMessage(string _encryptedInput)
         {
             byte[] encryptedBytes = Convert.FromBase64String(_encryptedInput);
             //ICryptoTransform crypto = _aes.CreateDecryptor(_aes.Key, _aes.IV);
             //byte[] _decryptedInput = crypto.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
             //crypto.Dispose();
-            using (MemoryStream plaintext = new MemoryStream())
-            {
-                using (CryptoStream cs = new CryptoStream(plaintext, _aes.CreateDecryptor(), CryptoStreamMode.Write))
-                {
-                    cs.Write(encryptedBytes, 0, encryptedBytes.Length);
-                    cs.Close();                    
-                    return System.Text.ASCIIEncoding.ASCII.GetString(plaintext.ToArray());
-                }
-            }
-            
-
+            MemoryStream plaintext = new MemoryStream();
+            CryptoStream cs = new CryptoStream(plaintext, _aes.CreateDecryptor(), CryptoStreamMode.Write);                
+            cs.Write(encryptedBytes, 0, encryptedBytes.Length);
+            cs.Close();                    
+            return System.Text.ASCIIEncoding.ASCII.GetString(plaintext.ToArray());
         }
 
     }
