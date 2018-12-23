@@ -28,7 +28,7 @@ namespace S3MDZ_Chat
         public MainWindow()
         {
             InitializeComponent();            
-            ConnectionManager.ListenForRemoteGuest(StartChat);
+            ConnectionManager.ListenForRemoteGuest(StartChat, AcceptConnection);
             //AcceptConnection();
         }
 
@@ -48,7 +48,7 @@ namespace S3MDZ_Chat
                 this.Close();   
             });
         }
-        private void AcceptConnection()
+        private void AcceptConnection(Action<string> callback)
         {
             MessageBoxResult result = MessageBox.Show("Do you want to accept a connection?",
                                           "Confirmation",
@@ -56,10 +56,10 @@ namespace S3MDZ_Chat
                                           MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                //Start your fucking connection
+                callback("2");
             } else if (result == MessageBoxResult.No)
             {
-                //do nothing
+                callback("3");
             }
         }
     }
