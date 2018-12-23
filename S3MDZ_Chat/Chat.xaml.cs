@@ -28,11 +28,7 @@ namespace S3MDZ_Chat
             InitializeComponent();
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             scrollViewer.ScrollToBottom();
-            //DiffieHellman.InitializeExchange();
-            //AES.InitializeEncryptor(null);            
-            //chatBlockMain.Text = AES.EncryptMessage("OMEGALUL");
-            //chatBlockMain.Text = AES.DecryptMessage(chatBlockMain.Text);         
-            //ConnectionManager.InitializeConnectionManager();
+            
 
         }
 

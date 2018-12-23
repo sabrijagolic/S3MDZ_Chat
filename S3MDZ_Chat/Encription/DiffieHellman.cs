@@ -32,22 +32,6 @@ namespace S3MDZ_Chat.Encription
 
         
 
-        public static void RecieveKey()
-        {
-
-        }
-
-        public static void FinalizeKey()
-        {
-
-        } 
-
-        public static void InitializeExchange()
-        {
-            GenerateKey();            
-            RecieveKey();
-            FinalizeKey();
-
-        }
+        
     }
 }

@@ -21,9 +21,7 @@ namespace S3MDZ_Chat.Encription
 
         public static void InitializeEncryptor(byte[] _publicKey)
         {            
-            //var key = CngKey.Import(diffieHellman._publicKey, CngKeyBlobFormat.EccPublicBlob);
-            //var derivedKey = diffieHellman.diffieHellman.DeriveKeyMaterial(key);            
-            //Console.WriteLine(Convert.ToBase64String(key.));
+            
             _aes = new AesCryptoServiceProvider
             {
                 BlockSize = 128,
@@ -40,10 +38,7 @@ namespace S3MDZ_Chat.Encription
         {
             byte[] plainTextBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(_userInput);
             MemoryStream ciphertext = new MemoryStream();
-            CryptoStream cs = new CryptoStream(ciphertext, _aes.CreateEncryptor(), CryptoStreamMode.Write);
-            //ICryptoTransform crypto = _aes.CreateEncryptor(_aes.Key, _aes.IV);           
-            //byte[] encrypted = crypto.TransformFinalBlock(plainTextBytes, 0, plainTextBytes.Length);
-            //crypto.Dispose();
+            CryptoStream cs = new CryptoStream(ciphertext, _aes.CreateEncryptor(), CryptoStreamMode.Write);            
             cs.Write(plainTextBytes, 0, plainTextBytes.Length);
             cs.Close();            
             return Convert.ToBase64String(ciphertext.ToArray());
@@ -51,10 +46,7 @@ namespace S3MDZ_Chat.Encription
 
         public static string DecryptMessage(string _encryptedInput)
         {
-            byte[] encryptedBytes = Convert.FromBase64String(_encryptedInput);
-            //ICryptoTransform crypto = _aes.CreateDecryptor(_aes.Key, _aes.IV);
-            //byte[] _decryptedInput = crypto.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
-            //crypto.Dispose();
+            byte[] encryptedBytes = Convert.FromBase64String(_encryptedInput);            
             MemoryStream plaintext = new MemoryStream();
             CryptoStream cs = new CryptoStream(plaintext, _aes.CreateDecryptor(), CryptoStreamMode.Write);                
             cs.Write(encryptedBytes, 0, encryptedBytes.Length);

@@ -29,7 +29,7 @@ namespace S3MDZ_Chat
         {
             InitializeComponent();            
             ConnectionManager.ListenForRemoteGuest(StartChat, AcceptConnection);
-            //AcceptConnection();
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
