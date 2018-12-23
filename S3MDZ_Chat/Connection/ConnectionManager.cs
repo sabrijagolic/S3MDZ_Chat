@@ -15,15 +15,19 @@ namespace S3MDZ_Chat.Connection
         private static IPEndPoint ipEndPointReceive;
         private static bool waitForGuest = true;
         private static string guestIp = "";
+        private static UdpClient connectionUdp;
 
         public static void StartChat(string guestIp)
         {
-            var udpClient = new UdpClient();
+            if (connectionUdp == null)
+            {
+                connectionUdp = new UdpClient();
+            }
             ConnectionManager.guestIp = guestIp;
             ipEndPointReceive = new IPEndPoint(IPAddress.Parse(guestIp), 0);
             var ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
             Byte[] sendBytes = Encoding.ASCII.GetBytes("1");
-            udpClient.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
+            connectionUdp.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
             waitForGuest = false;
         }
 
@@ -41,10 +45,13 @@ namespace S3MDZ_Chat.Connection
                     if (message == "1")
                     {
                         onRequestReceived((string choice) => {
-                            var udpClient = new UdpClient();
+                            if (connectionUdp == null)
+                            {
+                                connectionUdp = new UdpClient();
+                            }
                             IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
                             Byte[] sendBytes = Encoding.ASCII.GetBytes(choice);
-                            udpClient.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
+                            connectionUdp.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
                             if (choice == "2")
                             {
                                 onChartStarted();
@@ -62,7 +69,7 @@ namespace S3MDZ_Chat.Connection
                     }
                     else if (message == "4")
                     {
-                        // On close
+                        MessageBox.Show("The guest was disconnected.");
                     }
 
                 }
@@ -71,10 +78,13 @@ namespace S3MDZ_Chat.Connection
 
         public static void EndConnection()
         {
-            var udpClient = new UdpClient();
+            if (connectionUdp == null)
+            {
+                connectionUdp = new UdpClient();
+            }
             IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
             Byte[] sendBytes = Encoding.ASCII.GetBytes("4");
-            udpClient.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
+            connectionUdp.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
         }
 
         public static void Send(string text)
