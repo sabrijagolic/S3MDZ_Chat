@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using S3MDZ_Chat.Encription;
+using S3MDZ_Chat.Connection;
+using System.Threading;
 
 namespace S3MDZ_Chat
 {
@@ -21,17 +23,22 @@ namespace S3MDZ_Chat
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string IPAddress;
+        
 
         public MainWindow()
         {
             InitializeComponent();
             
+            ConnectionManager.Receive();
+            
+            
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            IPAddress = IPTextBox.Text; 
+            ConnectionManager.InitializeConnectionManager(IPTextBox.Text);
+            ConnectionManager.Send();
             Chat chat = new Chat();
             chat.Show();
             this.Close();

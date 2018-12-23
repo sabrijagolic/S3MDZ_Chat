@@ -1,4 +1,5 @@
-﻿using S3MDZ_Chat.Encription;
+﻿using S3MDZ_Chat.Connection;
+using S3MDZ_Chat.Encription;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,16 +24,21 @@ namespace S3MDZ_Chat
         public Chat()
         {
             InitializeComponent();
-            DiffieHellman.InitializeExchange();
-            AES.InitializeEncryptor(null);            
-            chatBlockMain.Text = AES.EncryptMessage("OMEGALUL");
-            chatBlockMain.Text = AES.DecryptMessage(chatBlockMain.Text);            
+            //DiffieHellman.InitializeExchange();
+            //AES.InitializeEncryptor(null);            
+            //chatBlockMain.Text = AES.EncryptMessage("OMEGALUL");
+            //chatBlockMain.Text = AES.DecryptMessage(chatBlockMain.Text);         
+            //ConnectionManager.InitializeConnectionManager();
+            //ConnectionManager.Receive();
+
+        
         }
 
         private void Button_Send(object sender, RoutedEventArgs e)
         {
            
-            chatBlockMain.Text = AES.EncryptMessage(textBoxUserInput.Text);
+            //chatBlockMain.Text = AES.EncryptMessage(textBoxUserInput.Text);
+            //ConnectionManager.Send();
         }
 
         private void Button_EndConnection(object sender, RoutedEventArgs e)
