@@ -37,6 +37,7 @@ namespace S3MDZ_Chat
 
         private void Button_Send(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine(AES.IsNull());
             chatBlockMain.TextAlignment = TextAlignment.Right;
             chatBlockMain.Text += "\n Ja: " + textBoxUserInput.Text; 
             ConnectionManager.Send(textBoxUserInput.Text);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using S3MDZ_Chat.Encription;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -62,6 +63,8 @@ namespace S3MDZ_Chat.Connection
                     {
                         ipEndPointReceive = new IPEndPoint(IPAddress.Parse(endPoint.Address.ToString()), 0);
                         onChartStarted();
+                        IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
+                        connectionUdp.Send(DiffieHellman._publicKey, DiffieHellman._publicKey.Length, ipEndPointConnect);
                     }
                     else if (message == "3")
                     {
@@ -70,6 +73,15 @@ namespace S3MDZ_Chat.Connection
                     else if (message == "4")
                     {
                         MessageBox.Show("The guest was disconnected.");
+                    }
+                    else
+                    {
+                        if (AES.IsNull())
+                        {
+                            AES.InitializeEncryptor(data);
+                            IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
+                            connectionUdp.Send(DiffieHellman._publicKey, DiffieHellman._publicKey.Length, ipEndPointConnect);
+                        }
                     }
 
                 }

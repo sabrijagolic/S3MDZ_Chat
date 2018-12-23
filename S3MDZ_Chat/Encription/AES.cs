@@ -62,5 +62,10 @@ namespace S3MDZ_Chat.Encription
             return System.Text.ASCIIEncoding.ASCII.GetString(plaintext.ToArray());
         }
 
+        public static bool IsNull()
+        {
+            return _aes == null;
+        }
+
     }
 }
