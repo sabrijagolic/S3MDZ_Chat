@@ -34,9 +34,11 @@ namespace S3MDZ_Chat
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ConnectionManager.StartChat(IPTextBox.Text);
-            StartChat(null);
+            Chat chat = new Chat();
+            chat.Show();
+            this.Close();
         }
-        private void StartChat(Thread thread)
+        private void StartChat()
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -44,12 +46,6 @@ namespace S3MDZ_Chat
                 chat.Show();
                 this.Close();   
             });
-            
-            if(thread != null)
-            {
-                thread.Interrupt();
-            }
-
         }
     }
 }
