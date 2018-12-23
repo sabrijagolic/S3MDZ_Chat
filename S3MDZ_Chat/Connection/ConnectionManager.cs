@@ -16,7 +16,7 @@ namespace S3MDZ_Chat.Connection
         private static Thread guestListener;
         private static IPEndPoint ipEndPointSend;
         private static IPEndPoint ipEndPointReceive;
-
+        private static UdpClient udpClientListener;
 
         public static void StartChat(string testIp)
         {
@@ -42,7 +42,7 @@ namespace S3MDZ_Chat.Connection
         public static void ListenForRemoteGuest(Action onChartStarted)
         {
             udpClient = new UdpClient();
-            var udpClientListener = new UdpClient(11000);
+            udpClientListener = new UdpClient(11000);
             ThreadStart start = new ThreadStart(() =>
             {
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
@@ -66,7 +66,6 @@ namespace S3MDZ_Chat.Connection
 
         public static void ReceiveMessage(Action<string> messageReceived)
         {
-            var udpClientListener = new UdpClient(11000);
             ThreadStart start = new ThreadStart(() =>
             {
                 while (true)
