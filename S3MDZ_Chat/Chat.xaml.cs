@@ -30,7 +30,7 @@ namespace S3MDZ_Chat
             //chatBlockMain.Text = AES.EncryptMessage("OMEGALUL");
             //chatBlockMain.Text = AES.DecryptMessage(chatBlockMain.Text);         
             //ConnectionManager.InitializeConnectionManager();
-            
+
         }
 
         private void Button_Send(object sender, RoutedEventArgs e)
