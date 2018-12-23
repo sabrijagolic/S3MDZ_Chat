@@ -31,8 +31,9 @@
         <Grid Grid.Row="1"
           Grid.Column="1"          
           Background="Pink" />
-        
-        <TextBlock Grid.Row="0" Grid.Column="0" Name="chatBlockMain" HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <ScrollViewer Name="scrollViewer" Grid.Row="0" Grid.Column="0" >
+        <TextBlock  Name="chatBlockMain" HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        </ScrollViewer>
         <Button Grid.Row="1" Grid.Column="1" Content="Send" Margin="0" Click="Button_Send" Foreground="Red" IsDefault="True" Height="42" Width="88"/>
         <Button Grid.Row="0" Grid.Column="1" Content="End Connection" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Click="Button_EndConnection"/>
         <TextBox Grid.Row="1" Grid.Column="0" Name="textBoxUserInput" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Height="26px"/>

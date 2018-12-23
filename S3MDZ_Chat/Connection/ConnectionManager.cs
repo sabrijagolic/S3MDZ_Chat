@@ -54,6 +54,7 @@ namespace S3MDZ_Chat.Connection
                     ipEndPointReceive = new IPEndPoint(IPAddress.Parse(endPoint.Address.ToString()), 0);
                     InitializeConnectionManager(endPoint.Address.ToString());
                     onChartStarted(guestListener);
+                    
                 }
             });
             guestListener = new Thread(start);

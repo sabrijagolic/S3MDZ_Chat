@@ -25,21 +25,24 @@ namespace S3MDZ_Chat
         {
             ConnectionManager.ReceiveMessage(MessageReceived);
             InitializeComponent();
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            scrollViewer.ScrollToBottom();
             //DiffieHellman.InitializeExchange();
             //AES.InitializeEncryptor(null);            
             //chatBlockMain.Text = AES.EncryptMessage("OMEGALUL");
             //chatBlockMain.Text = AES.DecryptMessage(chatBlockMain.Text);         
             //ConnectionManager.InitializeConnectionManager();
-            
+
         }
 
         private void Button_Send(object sender, RoutedEventArgs e)
         {
             chatBlockMain.TextAlignment = TextAlignment.Right;
-            chatBlockMain.Text += "\n Ja: " + textBoxUserInput.Text; // AES.EncryptMessage(textBoxUserInput.Text);
+            chatBlockMain.Text += "\n Ja: " + textBoxUserInput.Text; 
             ConnectionManager.Send(textBoxUserInput.Text);
             textBoxUserInput.Text = "";
-            
+            scrollViewer.ScrollToBottom();
+
         }
 
         private void Button_EndConnection(object sender, RoutedEventArgs e)
@@ -53,6 +56,7 @@ namespace S3MDZ_Chat
             {
                 chatBlockMain.TextAlignment = TextAlignment.Left;
                 chatBlockMain.Text += "\n  Neko:" + message;
+                scrollViewer.ScrollToBottom();
             });
             
         }
