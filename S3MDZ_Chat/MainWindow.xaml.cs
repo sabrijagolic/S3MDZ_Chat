@@ -27,7 +27,7 @@ namespace S3MDZ_Chat
 
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
             ConnectionManager.ListenForRemoteGuest(StartChat);
         }
 

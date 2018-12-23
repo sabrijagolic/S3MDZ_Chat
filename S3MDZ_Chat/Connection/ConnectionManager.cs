@@ -103,6 +103,7 @@ namespace S3MDZ_Chat.Connection
                 }
             });
             chatListener = new Thread(start);
+            chatListener.SetApartmentState(ApartmentState.STA);
             chatListener.IsBackground = true;
             chatListener.Start();
         }
