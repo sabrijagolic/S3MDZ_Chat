@@ -35,9 +35,6 @@ namespace S3MDZ_Chat
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ConnectionManager.StartChat(IPTextBox.Text);
-            Chat chat = new Chat();
-            chat.Show();
-            this.Close();
         }
         private void StartChat()
         {

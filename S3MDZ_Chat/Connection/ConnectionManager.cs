@@ -46,7 +46,6 @@ namespace S3MDZ_Chat.Connection
                             Byte[] sendBytes = Encoding.ASCII.GetBytes(choice);
                             udpClient.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
                         });
-                        onChartStarted();
                     }
                     else if (message == "2")
                     {
