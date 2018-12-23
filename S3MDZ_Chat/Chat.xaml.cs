@@ -23,13 +23,13 @@ namespace S3MDZ_Chat
     {
         public Chat()
         {
+            ConnectionManager.ReceiveMessage(MessageReceived);
             InitializeComponent();
             //DiffieHellman.InitializeExchange();
             //AES.InitializeEncryptor(null);            
             //chatBlockMain.Text = AES.EncryptMessage("OMEGALUL");
             //chatBlockMain.Text = AES.DecryptMessage(chatBlockMain.Text);         
             //ConnectionManager.InitializeConnectionManager();
-            ConnectionManager.ReceiveMessage(MessageReceived);
         }
 
         private void Button_Send(object sender, RoutedEventArgs e)

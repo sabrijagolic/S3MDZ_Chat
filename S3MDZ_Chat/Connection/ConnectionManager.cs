@@ -11,11 +11,7 @@ namespace S3MDZ_Chat.Connection
 {
     public class ConnectionManager
     {
-        const int port = 54545;
-        //const string testIp = "31.223.138.210";
-
         private static UdpClient udpClient;
-        private static UdpClient udpClientListener;
         private static Thread chatListener;
         private static Thread guestListener;
         private static IPEndPoint ipEndPointSend;
@@ -24,11 +20,11 @@ namespace S3MDZ_Chat.Connection
 
         public static void StartChat(string testIp)
         {
+            guestListener.Interrupt();
             ipEndPointSend = new IPEndPoint(IPAddress.Parse(testIp), 11000);
             ipEndPointReceive = new IPEndPoint(IPAddress.Parse(testIp), 0);
             Byte[] sendBytes = Encoding.ASCII.GetBytes("Ovo je nesto");
             udpClient.Send(sendBytes, sendBytes.Length, ipEndPointSend);
-            guestListener.Abort();
         }
 
         public static void InitializeConnectionManager(string testIp)
@@ -39,20 +35,14 @@ namespace S3MDZ_Chat.Connection
         public static void Send(string text)
         {
             Byte[] sendBytes = Encoding.ASCII.GetBytes(text);
-            try
-            {
-                udpClient.Send(sendBytes, sendBytes.Length, ipEndPointSend);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
+            udpClient.Send(sendBytes, sendBytes.Length, ipEndPointSend);
+
         }
 
         public static void ListenForRemoteGuest(Action onChartStarted)
         {
             udpClient = new UdpClient();
-            udpClientListener = new UdpClient(11000);
+            var udpClientListener = new UdpClient(11000);
             ThreadStart start = new ThreadStart(() =>
             {
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
@@ -61,14 +51,12 @@ namespace S3MDZ_Chat.Connection
                 {
                     byte[] data = udpClientListener.Receive(ref endPoint);
                     string message = Encoding.ASCII.GetString(data);
-                    Console.WriteLine(message);
-                    Console.WriteLine(endPoint.Address.ToString());
                     ipEndPointReceive = new IPEndPoint(IPAddress.Parse(endPoint.Address.ToString()), 0);
                     InitializeConnectionManager(endPoint.Address.ToString());
+                    guestListener.Interrupt();
                     onChartStarted();
-                    guestListener.Abort();
                 }
-            });            
+            });
             guestListener = new Thread(start);
             guestListener.SetApartmentState(ApartmentState.STA);
             guestListener.IsBackground = true;
@@ -78,28 +66,15 @@ namespace S3MDZ_Chat.Connection
 
         public static void ReceiveMessage(Action<string> messageReceived)
         {
+            var udpClientListener = new UdpClient(11000);
             ThreadStart start = new ThreadStart(() =>
             {
                 while (true)
                 {
-                    try
-                    {
-                        // Blocks until a message returns on this socket from a remote host.
-                        byte[] receiveBytes = udpClientListener.Receive(ref ipEndPointReceive);
+                    byte[] receiveBytes = udpClientListener.Receive(ref ipEndPointReceive);
 
-                        string returnData = Encoding.ASCII.GetString(receiveBytes);
-                        messageReceived(returnData.ToString());
-                        Console.WriteLine("This is the message you received " +
-                                                     returnData.ToString());
-                        Console.WriteLine("This message was sent from " +
-                                                    ipEndPointReceive.Address.ToString() +
-                                                    " on their port number " +
-                                                    ipEndPointReceive.Port.ToString());
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
+                    string returnData = Encoding.ASCII.GetString(receiveBytes);
+                    messageReceived(returnData.ToString());
                 }
             });
             chatListener = new Thread(start);

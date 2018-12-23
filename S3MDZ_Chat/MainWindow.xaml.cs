@@ -40,7 +40,6 @@ namespace S3MDZ_Chat
         {
             this.Dispatcher.Invoke(() =>
             {
-                Console.WriteLine("Waazaaaaaap");
                 Chat chat = new Chat();
                 chat.Show();
                 this.Close();   
