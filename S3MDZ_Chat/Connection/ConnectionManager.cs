@@ -26,6 +26,8 @@ namespace S3MDZ_Chat.Connection
         {
             ipEndPointSend = new IPEndPoint(IPAddress.Parse(testIp), 11000);
             ipEndPointReceive = new IPEndPoint(IPAddress.Parse(testIp), 0);
+            Byte[] sendBytes = Encoding.ASCII.GetBytes("Ovo je nesto");
+            udpClient.Send(sendBytes, sendBytes.Length, ipEndPointSend);
         }
 
         public static void InitializeConnectionManager(string testIp)
@@ -63,9 +65,11 @@ namespace S3MDZ_Chat.Connection
                     ipEndPointReceive = new IPEndPoint(IPAddress.Parse(endPoint.Address.ToString()), 0);
                     InitializeConnectionManager(endPoint.Address.ToString());
                     onChartStarted();
+                    guestListener.Abort();
                 }
-            });
+            });            
             guestListener = new Thread(start);
+            guestListener.SetApartmentState(ApartmentState.STA);
             guestListener.IsBackground = true;
             guestListener.Start();
         }

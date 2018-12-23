@@ -45,7 +45,11 @@ namespace S3MDZ_Chat
 
         private void MessageReceived(string message)
         {
-            chatBlockMain.Text += "\n  Neko:" +  message;
+            this.Dispatcher.Invoke(() =>
+            {
+                chatBlockMain.Text += "\n  Neko:" + message;
+            });
+            
         }
     }
 }

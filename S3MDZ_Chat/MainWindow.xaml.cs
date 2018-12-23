@@ -38,10 +38,14 @@ namespace S3MDZ_Chat
         }
         private void StartChat()
         {
-            Console.WriteLine("Waazaaaaaap");
-            Chat chat = new Chat();
-            chat.Show();
-            this.Close();
+            this.Dispatcher.Invoke(() =>
+            {
+                Console.WriteLine("Waazaaaaaap");
+                Chat chat = new Chat();
+                chat.Show();
+                this.Close();   
+            });
+            
 
         }
     }
