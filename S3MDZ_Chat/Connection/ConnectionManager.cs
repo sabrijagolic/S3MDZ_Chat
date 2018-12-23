@@ -45,6 +45,10 @@ namespace S3MDZ_Chat.Connection
                             IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
                             Byte[] sendBytes = Encoding.ASCII.GetBytes(choice);
                             udpClient.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
+                            if (choice == "2")
+                            {
+                                onChartStarted();
+                            }
                         });
                     }
                     else if (message == "2")
@@ -56,12 +60,21 @@ namespace S3MDZ_Chat.Connection
                     {
                         MessageBox.Show("Your connection request was refused");
                     }
-                    if (waitForGuest)
+                    else if (message == "4")
                     {
-                        waitForGuest = false;
+                        // On close
                     }
+
                 }
             });
+        }
+
+        public static void EndConnection()
+        {
+            var udpClient = new UdpClient();
+            IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
+            Byte[] sendBytes = Encoding.ASCII.GetBytes("4");
+            udpClient.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
         }
 
         public static void Send(string text)
