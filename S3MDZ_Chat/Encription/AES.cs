@@ -64,6 +64,9 @@ namespace S3MDZ_Chat.Encription
 
         public static bool IsNull()
         {
+            if(_aes != null) { 
+            Console.WriteLine(Convert.ToBase64String(_aes.Key));
+            }
             return _aes == null;
         }
 

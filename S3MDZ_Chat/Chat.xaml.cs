@@ -23,6 +23,7 @@ namespace S3MDZ_Chat
     {
         public Chat()
         {
+            DiffieHellman.GenerateKey();
             ConnectionManager.ReceiveMessage(MessageReceived);
             InitializeComponent();
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
@@ -40,7 +41,7 @@ namespace S3MDZ_Chat
             Console.WriteLine(AES.IsNull());
             chatBlockMain.TextAlignment = TextAlignment.Right;
             chatBlockMain.Text += "\n Ja: " + textBoxUserInput.Text; 
-            ConnectionManager.Send(textBoxUserInput.Text);
+            ConnectionManager.Send(AES.EncryptMessage(textBoxUserInput.Text));
             textBoxUserInput.Text = "";
             scrollViewer.ScrollToBottom();
 
@@ -56,7 +57,7 @@ namespace S3MDZ_Chat
             this.Dispatcher.Invoke(() =>
             {
                 chatBlockMain.TextAlignment = TextAlignment.Left;
-                chatBlockMain.Text += "\n  Neko:" + message;
+                chatBlockMain.Text += "\n  Neko:" + AES.DecryptMessage(message);
                 scrollViewer.ScrollToBottom();
             });
             
