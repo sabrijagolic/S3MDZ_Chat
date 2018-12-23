@@ -39,7 +39,7 @@ namespace S3MDZ_Chat.Connection
 
         }
 
-        public static void ListenForRemoteGuest(Action onChartStarted)
+        public static void ListenForRemoteGuest(Action<Thread> onChartStarted)
         {
             udpClient = new UdpClient();
             udpClientListener = new UdpClient(11000);
@@ -53,8 +53,8 @@ namespace S3MDZ_Chat.Connection
                     string message = Encoding.ASCII.GetString(data);
                     ipEndPointReceive = new IPEndPoint(IPAddress.Parse(endPoint.Address.ToString()), 0);
                     InitializeConnectionManager(endPoint.Address.ToString());
+                    onChartStarted(guestListener);
                     guestListener.Interrupt();
-                    onChartStarted();
                 }
             });
             guestListener = new Thread(start);
