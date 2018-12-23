@@ -11,7 +11,7 @@ namespace S3MDZ_Chat.Encription
     public class AES
     {
         
-        private  string _IV = "fhsgasdfghjkqwer";
+        private static string _IV = "fhsgasdfghjkqwer";
         
         static Aes _aes;
         public AES()
@@ -29,7 +29,7 @@ namespace S3MDZ_Chat.Encription
                 BlockSize = 128,
                 KeySize = 256,
                 Key = DiffieHellman.diffieHellman.DeriveKeyMaterial(CngKey.Import(_publicKey, CngKeyBlobFormat.EccPublicBlob)),
-                //IV = System.Text.ASCIIEncoding.ASCII.GetBytes(_IV),
+                IV = System.Text.ASCIIEncoding.ASCII.GetBytes(_IV),
                 Padding = PaddingMode.PKCS7,
                 Mode = CipherMode.CBC
             };
