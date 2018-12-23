@@ -70,6 +70,7 @@
     <Compile Include="Chat.xaml.cs">
       <DependentUpon>Chat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Connection\ConnectionManager.cs" />
     <Compile Include="Encription\AES.cs" />
     <Compile Include="Encription\DiffieHellman.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -103,5 +104,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
