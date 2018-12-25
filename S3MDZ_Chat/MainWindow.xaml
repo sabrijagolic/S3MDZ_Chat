@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:S3MDZ_Chat"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="228.61" Width="469.117" ResizeMode="NoResize">
     <Grid Margin="0">
         <Label Content="IP Address" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="IPTextBox"/>
-        <Button Content="Connect" HorizontalAlignment="Center" Margin="0,100,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <TextBox HorizontalAlignment="Center" Height="26" Margin="0,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Name="IPTextBox" HorizontalContentAlignment="Center" FontSize="16" MaxLength="15" VerticalContentAlignment="Center"/>
+        <Button Content="Connect" HorizontalAlignment="Center" Margin="0,100,0,0" VerticalAlignment="Top" Click="Button_Click" Name="ConnectButton" Padding="10,3" Background="#FF5DFF00" Foreground="White" FontWeight="Bold"/>
         <Label Content="Waiting for connection..." HorizontalAlignment="Center" Margin="0,130,0,0" VerticalAlignment="Top" Visibility="Hidden" Name="ConnectionLabel"/>
-        <ProgressBar HorizontalAlignment="Center" Height="15" VerticalAlignment="Bottom" Width="300" Margin="0,0,0,20" Visibility="Hidden" Name="ConnectionProgressBar"/>
+        <ProgressBar HorizontalAlignment="Center" Height="15" VerticalAlignment="Bottom" Width="300" Margin="0,0,0,20" Visibility="Hidden" Name="ConnectionProgressBar" IsIndeterminate="True"/>
 
     </Grid>
 </Window>

@@ -24,22 +24,47 @@ namespace S3MDZ_Chat
     public partial class MainWindow : Window
     {
 
-
+        bool requestSending = false;
         public MainWindow()
         {
             InitializeComponent();            
-            ConnectionManager.ListenForRemoteGuest(StartChat, AcceptConnection);
-            
+            ConnectionManager.ListenForRemoteGuest(StartChat, AcceptConnection, HideProgressbar);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ConnectionManager.StartChat(IPTextBox.Text);
+            if (ValidateIPv4(IPTextBox.Text)) { 
+            if (requestSending == false)
+            {
+                requestSending = true;
+                IPTextBox.IsEnabled = false;
+                ConnectionProgressBar.Visibility = Visibility.Visible;
+                ConnectionLabel.Visibility = Visibility.Visible;
+                ConnectionManager.StartChat(IPTextBox.Text);
+                ConnectButton.Content = "Cancel connection";
+                
+            }
+            else
+            {
+                requestSending = false;
+                ConnectButton.Content = "Connect";
+                HideProgressbar();
+            }
+
+            }
+            else
+            {
+                MessageBox.Show("Invalid IP address","Input error");
+            }
+
+
         }
         private void StartChat()
         {
             this.Dispatcher.Invoke(() =>
             {
+                ConnectionProgressBar.Visibility = Visibility.Hidden;
+                ConnectionLabel.Visibility = Visibility.Hidden;
                 Chat chat = new Chat();
                 chat.Show();
                 this.Close();   
@@ -59,5 +84,29 @@ namespace S3MDZ_Chat
                 callback("3");
             }
         }
+        public void HideProgressbar()
+        {
+            ConnectionProgressBar.Visibility = Visibility.Hidden;
+            ConnectionLabel.Visibility = Visibility.Hidden;
+            IPTextBox.IsEnabled = true;
+        }
+        public bool ValidateIPv4(string ipString)
+        {
+            if (String.IsNullOrWhiteSpace(ipString))
+            {
+                return false;
+            }
+
+            string[] splitValues = ipString.Split('.');
+            if (splitValues.Length != 4)
+            {
+                return false;
+            }
+
+            byte tempForParsing;
+
+            return splitValues.All(r => byte.TryParse(r, out tempForParsing));
+        }
+
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace S3MDZ_Chat.Connection
 {
@@ -32,7 +33,7 @@ namespace S3MDZ_Chat.Connection
             waitForGuest = false;
         }
 
-        public static void ListenForRemoteGuest(Action onChartStarted, Action<Action<string>> onRequestReceived)
+        public static void ListenForRemoteGuest(Action onChartStarted, Action<Action<string>> onRequestReceived, Action HideProgressBar)
         {
             RunThread(() =>
             {
@@ -68,11 +69,12 @@ namespace S3MDZ_Chat.Connection
                     }
                     else if (message == "3")
                     {
+                        HideProgressBar();
                         MessageBox.Show("Your connection request was refused");
                     }
                     else if (message == "4")
                     {
-                        MessageBox.Show("The guest was disconnected.");
+                        MessageBox.Show("The guest has disconnected.");
                     }
                     else
                     {
