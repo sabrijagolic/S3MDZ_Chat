@@ -27,6 +27,8 @@ namespace S3MDZ_Chat
         bool requestSending = false;
         public MainWindow()
         {
+            Chat c = new Chat();
+            c.Show();
             InitializeComponent();            
             ConnectionManager.ListenForRemoteGuest(StartChat, AcceptConnection, HideProgressbar);
         }
@@ -41,8 +43,7 @@ namespace S3MDZ_Chat
                 ConnectionProgressBar.Visibility = Visibility.Visible;
                 ConnectionLabel.Visibility = Visibility.Visible;
                 ConnectionManager.StartChat(IPTextBox.Text);
-                ConnectButton.Content = "Cancel connection";
-                
+                ConnectButton.Content = "Cancel connection";                
             }
             else
             {
@@ -50,15 +51,13 @@ namespace S3MDZ_Chat
                 ConnectButton.Content = "Connect";
                 HideProgressbar();
             }
-
             }
             else
             {
                 MessageBox.Show("Invalid IP address","Input error");
             }
-
-
         }
+
         private void StartChat()
         {
             this.Dispatcher.Invoke(() =>
@@ -70,12 +69,10 @@ namespace S3MDZ_Chat
                 this.Close();   
             });
         }
+
         private void AcceptConnection(Action<string> callback)
         {
-            MessageBoxResult result = MessageBox.Show("Do you want to accept a connection?",
-                                          "Confirmation",
-                                          MessageBoxButton.YesNo,
-                                          MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Do you want to accept a connection?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 callback("2");
@@ -84,27 +81,26 @@ namespace S3MDZ_Chat
                 callback("3");
             }
         }
+
         public void HideProgressbar()
         {
             ConnectionProgressBar.Visibility = Visibility.Hidden;
             ConnectionLabel.Visibility = Visibility.Hidden;
             IPTextBox.IsEnabled = true;
         }
+
         public bool ValidateIPv4(string ipString)
         {
             if (String.IsNullOrWhiteSpace(ipString))
             {
                 return false;
             }
-
             string[] splitValues = ipString.Split('.');
             if (splitValues.Length != 4)
             {
                 return false;
             }
-
             byte tempForParsing;
-
             return splitValues.All(r => byte.TryParse(r, out tempForParsing));
         }
 

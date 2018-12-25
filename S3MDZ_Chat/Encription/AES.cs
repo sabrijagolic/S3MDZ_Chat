@@ -11,8 +11,7 @@ namespace S3MDZ_Chat.Encription
     public class AES
     {
         
-        private static string _IV = "fhsgasdfghjkqwer";
-        
+        private static string _IV = null;        
         static Aes _aes;
         public AES()
         {
@@ -20,18 +19,22 @@ namespace S3MDZ_Chat.Encription
         }
 
         public static void InitializeEncryptor(byte[] _publicKey)
-        {            
-            
+        {
             _aes = new AesCryptoServiceProvider
             {
                 BlockSize = 128,
                 KeySize = 256,
                 Key = DiffieHellman.diffieHellman.DeriveKeyMaterial(CngKey.Import(_publicKey, CngKeyBlobFormat.EccPublicBlob)),
-                IV = System.Text.ASCIIEncoding.ASCII.GetBytes(_IV),
+                IV = null,
                 Padding = PaddingMode.PKCS7,
                 Mode = CipherMode.CBC
-            };
-            
+            };            
+        }
+
+        public static void SetIV(byte[] _publicIV)
+        {
+            short iv = (short)DiffieHellman.diffieHellmanIV.DeriveKeyMaterial(CngKey.Import(_publicIV, CngKeyBlobFormat.EccPublicBlob)).GetHashCode();
+            _aes.IV = System.Text.ASCIIEncoding.ASCII.GetBytes(iv.ToString());
         }
 
         public static string EncryptMessage(string _userInput)
@@ -55,11 +58,20 @@ namespace S3MDZ_Chat.Encription
         }
 
         public static bool IsNull()
-        {
-            if(_aes != null) { 
-            Console.WriteLine(Convert.ToBase64String(_aes.Key));
-            }
+        {                        
             return _aes == null;
+        }
+
+        public static bool IsIVNull()
+        {
+            if(_aes.IV == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }

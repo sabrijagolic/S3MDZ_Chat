@@ -23,7 +23,9 @@ namespace S3MDZ_Chat
     {
         public Chat()
         {
-            DiffieHellman.GenerateKey();
+            DiffieHellman.GenerateKey();            
+            ConnectionManager.ReceiveMessage(MessageReceived);
+            DiffieHellman.GenerateIv();
             ConnectionManager.ReceiveMessage(MessageReceived);
             InitializeComponent();
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
