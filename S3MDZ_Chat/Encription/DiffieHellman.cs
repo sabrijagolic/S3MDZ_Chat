@@ -10,15 +10,17 @@ namespace S3MDZ_Chat.Encription
 {
     public class DiffieHellman
     {
-        
+
         public static byte[] _publicKey;
+        public static byte[] _publicIV;
         public static ECDiffieHellmanCng diffieHellman = null;
+        public static ECDiffieHellmanCng diffieHellmanIV = null;
         public string name;
 
         public DiffieHellman()
         {
-           
-            
+
+
         }
         public static void GenerateKey()
         {
@@ -29,9 +31,18 @@ namespace S3MDZ_Chat.Encription
             };
             _publicKey = diffieHellman.PublicKey.ToByteArray();
         }
+        public static void GenerateIv()
+        {
+            diffieHellmanIV = new ECDiffieHellmanCng
+            {
+                KeyDerivationFunction = ECDiffieHellmanKeyDerivationFunction.Hash,
+                HashAlgorithm = CngAlgorithm.Sha256
+            };
+            _publicIV = diffieHellmanIV.PublicKey.ToByteArray();
+        }
 
-        
 
-        
+
+
     }
 }

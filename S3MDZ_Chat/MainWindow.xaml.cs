@@ -27,38 +27,38 @@ namespace S3MDZ_Chat
         bool requestSending = false;
         public MainWindow()
         {
-            InitializeComponent();            
+            Chat c = new Chat();
+            c.Show();
+            InitializeComponent();
             ConnectionManager.ListenForRemoteGuest(StartChat, AcceptConnection, HideProgressbar);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateIPv4(IPTextBox.Text)) { 
-            if (requestSending == false)
+            if (ValidateIPv4(IPTextBox.Text))
             {
-                requestSending = true;
-                IPTextBox.IsEnabled = false;
-                ConnectionProgressBar.Visibility = Visibility.Visible;
-                ConnectionLabel.Visibility = Visibility.Visible;
-                ConnectionManager.StartChat(IPTextBox.Text);
-                ConnectButton.Content = "Cancel connection";
-                
+                if (requestSending == false)
+                {
+                    requestSending = true;
+                    IPTextBox.IsEnabled = false;
+                    ConnectionProgressBar.Visibility = Visibility.Visible;
+                    ConnectionLabel.Visibility = Visibility.Visible;
+                    ConnectionManager.StartChat(IPTextBox.Text);
+                    ConnectButton.Content = "Cancel connection";
+                }
+                else
+                {
+                    requestSending = false;
+                    ConnectButton.Content = "Connect";
+                    HideProgressbar();
+                }
             }
             else
             {
-                requestSending = false;
-                ConnectButton.Content = "Connect";
-                HideProgressbar();
+                MessageBox.Show("Invalid IP address", "Input error");
             }
-
-            }
-            else
-            {
-                MessageBox.Show("Invalid IP address","Input error");
-            }
-
-
         }
+
         private void StartChat()
         {
             this.Dispatcher.Invoke(() =>
@@ -67,44 +67,42 @@ namespace S3MDZ_Chat
                 ConnectionLabel.Visibility = Visibility.Hidden;
                 Chat chat = new Chat();
                 chat.Show();
-                this.Close();   
+                this.Close();
             });
         }
+
         private void AcceptConnection(Action<string> callback)
         {
-            MessageBoxResult result = MessageBox.Show("Do you want to accept a connection?",
-                                          "Confirmation",
-                                          MessageBoxButton.YesNo,
-                                          MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Do you want to accept a connection?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 callback("2");
-            } else if (result == MessageBoxResult.No)
+            }
+            else if (result == MessageBoxResult.No)
             {
                 callback("3");
             }
         }
+
         public void HideProgressbar()
         {
             ConnectionProgressBar.Visibility = Visibility.Hidden;
             ConnectionLabel.Visibility = Visibility.Hidden;
             IPTextBox.IsEnabled = true;
         }
+
         public bool ValidateIPv4(string ipString)
         {
             if (String.IsNullOrWhiteSpace(ipString))
             {
                 return false;
             }
-
             string[] splitValues = ipString.Split('.');
             if (splitValues.Length != 4)
             {
                 return false;
             }
-
             byte tempForParsing;
-
             return splitValues.All(r => byte.TryParse(r, out tempForParsing));
         }
 
