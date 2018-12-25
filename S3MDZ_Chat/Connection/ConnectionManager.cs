@@ -83,11 +83,6 @@ namespace S3MDZ_Chat.Connection
                             AES.InitializeEncryptor(data);
                             IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
                             connectionUdp.Send(DiffieHellman._publicKey, DiffieHellman._publicKey.Length, ipEndPointConnect);
-                        }  else if (AES.IsIVNull())
-                        {
-                            AES.SetIV(data);
-                            IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 10001);
-                            connectionUdp.Send(DiffieHellman._publicIV, DiffieHellman._publicIV.Length, ipEndPointConnect);
                         }
                     }
 
