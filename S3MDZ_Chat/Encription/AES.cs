@@ -36,20 +36,20 @@ namespace S3MDZ_Chat.Encription
             MemoryStream ciphertext = new MemoryStream();
             CryptoStream cs = new CryptoStream(ciphertext, _aes.CreateEncryptor(), CryptoStreamMode.Write);
             cs.Write(plainTextBytes, 0, plainTextBytes.Length);
-            cs.Close();
             ciphertext.Write(iv, 0, iv.Length);
+            cs.Close();            
             return Convert.ToBase64String(ciphertext.ToArray());
         }
 
         public static string DecryptMessage(string _encryptedInput)
         {
-            var iv = new byte[16];
-            Array.Copy(_encryptedInput.ToArray(), 0, iv, 0, iv.Length);
-            _aes.IV = iv;
+            var iv = new byte[16]; 
             byte[] encryptedBytes = Convert.FromBase64String(_encryptedInput);
+            Array.Copy(encryptedBytes.ToArray(), 0, iv, 0, iv.Length);
+            _aes.IV = iv;
             MemoryStream plaintext = new MemoryStream();
             CryptoStream cs = new CryptoStream(plaintext, _aes.CreateDecryptor(), CryptoStreamMode.Write);
-            cs.Write(encryptedBytes, 0, encryptedBytes.Length);
+            cs.Write(encryptedBytes, 16, encryptedBytes.Length);
             cs.Close();
             return System.Text.ASCIIEncoding.ASCII.GetString(plaintext.ToArray());
         }
