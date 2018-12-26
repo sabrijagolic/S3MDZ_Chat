@@ -23,20 +23,15 @@ namespace S3MDZ_Chat
     {
         public Chat()
         {
-            DiffieHellman.GenerateKey();
-            ConnectionManager.ReceiveMessage(MessageReceived);
-            DiffieHellman.GenerateIv();
-            ConnectionManager.ReceiveMessage(MessageReceived);
+            DiffieHellman.GenerateKey();            
+            ConnectionManager.ReceiveMessage(MessageReceived);            
             InitializeComponent();
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             scrollViewer.ScrollToBottom();
-
-
         }
 
         private void Button_Send(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine(AES.IsNull());
+        {            
             chatBlockMain.TextAlignment = TextAlignment.Right;
             chatBlockMain.Text += "\n Ja: " + textBoxUserInput.Text;
             ConnectionManager.Send(AES.EncryptMessage(textBoxUserInput.Text));
