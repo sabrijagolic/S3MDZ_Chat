@@ -49,7 +49,7 @@ namespace S3MDZ_Chat.Encription
             _aes.IV = iv;
             MemoryStream plaintext = new MemoryStream();
             CryptoStream cs = new CryptoStream(plaintext, _aes.CreateDecryptor(), CryptoStreamMode.Write);
-            cs.Write(encryptedBytes, 16, encryptedBytes.Length);
+            cs.Write(encryptedBytes, iv.Length, encryptedBytes.Length-iv.Length);
             cs.Close();
             return System.Text.ASCIIEncoding.ASCII.GetString(plaintext.ToArray());
         }
