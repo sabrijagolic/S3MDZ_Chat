@@ -35,7 +35,7 @@ namespace S3MDZ_Chat.Encription
             byte[] plainTextBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(_userInput);
             MemoryStream ciphertext = new MemoryStream();
             CryptoStream cs = new CryptoStream(ciphertext, _aes.CreateEncryptor(), CryptoStreamMode.Write);
-            cs.Write(plainTextBytes, 0, plainTextBytes.Length);
+            cs.Write(plainTextBytes, iv.Length, plainTextBytes.Length);
             ciphertext.Write(iv, 0, iv.Length);
             cs.Close();            
             return Convert.ToBase64String(ciphertext.ToArray());
@@ -45,11 +45,11 @@ namespace S3MDZ_Chat.Encription
         {
             var iv = new byte[16]; 
             byte[] encryptedBytes = Convert.FromBase64String(_encryptedInput);
-            Array.Copy(encryptedBytes.ToArray(), 0, iv, 0, iv.Length);
+            Array.Copy(encryptedBytes, 0, iv, 0, iv.Length);
             _aes.IV = iv;
             MemoryStream plaintext = new MemoryStream();
             CryptoStream cs = new CryptoStream(plaintext, _aes.CreateDecryptor(), CryptoStreamMode.Write);
-            cs.Write(encryptedBytes, iv.Length, encryptedBytes.Length-iv.Length);
+            cs.Write(encryptedBytes, iv.Length, encryptedBytes.Length-iv.Length);            
             cs.Close();
             return System.Text.ASCIIEncoding.ASCII.GetString(plaintext.ToArray());
         }
