@@ -22,8 +22,7 @@ namespace S3MDZ_Chat.Encription
             {
                 BlockSize = 128,
                 KeySize = 256,
-                Key = DiffieHellman.diffieHellman.DeriveKeyMaterial(CngKey.Import(_publicKey, CngKeyBlobFormat.EccPublicBlob)),
-                IV = null,
+                Key = DiffieHellman.diffieHellman.DeriveKeyMaterial(CngKey.Import(_publicKey, CngKeyBlobFormat.EccPublicBlob)),                
                 Padding = PaddingMode.PKCS7,
                 Mode = CipherMode.CBC
             };

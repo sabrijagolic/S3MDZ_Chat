@@ -26,17 +26,16 @@ namespace S3MDZ_Chat
 
         bool requestSending = false;
         public MainWindow()
-        {
-            //Chat c = new Chat();
-            //c.Show();
+        {                       
             InitializeComponent();
+            
+
             ConnectionManager.ListenForRemoteGuest(StartChat, AcceptConnection, HideProgressbar);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateIPv4(IPTextBox.Text))
-            {
+            
                 if (requestSending == false)
                 {
                     requestSending = true;
@@ -52,11 +51,7 @@ namespace S3MDZ_Chat
                     ConnectButton.Content = "Connect";
                     HideProgressbar();
                 }
-            }
-            else
-            {
-                MessageBox.Show("Invalid IP address", "Input error");
-            }
+            
         }
 
         private void StartChat()
@@ -106,5 +101,25 @@ namespace S3MDZ_Chat
             return splitValues.All(r => byte.TryParse(r, out tempForParsing));
         }
 
+        
+
+        private void IPTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ValidateIPv4(IPTextBox.Text))
+            {
+                ConnectButton.IsEnabled = true;
+                IPTextBox.Background = Brushes.White;
+                ConnectButton.Content = "Connect";
+
+            }
+            else
+            {
+                ConnectButton.IsEnabled = false;
+                IPTextBox.Background = Brushes.Red;
+                ConnectButton.Content = "Invalid IP";
+                
+
+            }
+        }
     }
 }
