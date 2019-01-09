@@ -8,35 +8,25 @@
         Title="Chat" MinHeight="450" MinWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="8*" />
+            <ColumnDefinition Width="8*" />            
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="26px"/>
         </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="9*"/>
             <RowDefinition Height="30px"/>            
             <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-          Grid.Column="0"
-          Background="Red" />
-
-        <Grid Grid.Row="0"
-          Grid.Column="1"
-          Background="Blue" />
-
-        <Grid Grid.Row="1"
-          Grid.Column="0"          
-          Background="Violet" />
-        <Grid Grid.Row="1"
-          Grid.Column="1"          
-          Background="Pink" />
+        </Grid.RowDefinitions>        
         <ScrollViewer Name="scrollViewer" Grid.Row="0" Grid.Column="0" >
-        <TextBlock  Name="chatBlockMain" HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <RichTextBox Name="chatBlockMain" Margin="0"/>
         </ScrollViewer>
-        <Button Grid.Row="1" Grid.Column="1" Content="Send" Margin="0" Click="Button_Send" Foreground="Red" IsDefault="True" Height="42" Width="88"/>
-        <Button Grid.Row="0" Grid.Column="1" Content="End Connection" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Click="Button_EndConnection"/>
-        <TextBox Grid.Row="1" Grid.Column="0" Name="textBoxUserInput" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Height="26px"/>
+        <Button Grid.Row="1" Grid.Column="2" Margin="0" Click="Button_Send" Foreground="Red" IsDefault="True" Height="26" Width="26" Panel.ZIndex="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Button.Background>
+                <ImageBrush ImageSource="send.png"/>
+            </Button.Background>
+        </Button>
+        <Button Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="End Connection" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Click="Button_EndConnection"/>
+        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Name="textBoxUserInput" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Height="26px"/>
 
     </Grid>
 </Window>

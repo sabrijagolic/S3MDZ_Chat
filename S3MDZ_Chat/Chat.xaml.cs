@@ -31,9 +31,8 @@ namespace S3MDZ_Chat
         }
 
         private void Button_Send(object sender, RoutedEventArgs e)
-        {            
-            chatBlockMain.TextAlignment = TextAlignment.Right;
-            chatBlockMain.Text += "\n Ja: " + textBoxUserInput.Text;
+        {
+            chatBlockMain.Document.Blocks.Add(new Paragraph(new Run("\n Ja: " + textBoxUserInput.Text)));           
             ConnectionManager.Send(AES.EncryptMessage(textBoxUserInput.Text));
             textBoxUserInput.Text = "";
             scrollViewer.ScrollToBottom();
@@ -49,8 +48,8 @@ namespace S3MDZ_Chat
         {
             this.Dispatcher.Invoke(() =>
             {
-                chatBlockMain.TextAlignment = TextAlignment.Left;
-                chatBlockMain.Text += "\n  Neko:" + AES.DecryptMessage(message);
+
+                chatBlockMain.Document.Blocks.Add(new Paragraph(new Run("\n  Neko: " + AES.DecryptMessage(message))));
                 scrollViewer.ScrollToBottom();
             });
 
