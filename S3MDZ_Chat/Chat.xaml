@@ -10,7 +10,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="8*" />            
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="26px"/>
+            <ColumnDefinition Width="31px"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="9*"/>
@@ -18,15 +18,15 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>        
         <ScrollViewer Name="scrollViewer" Grid.Row="0" Grid.Column="0" >
-            <RichTextBox Name="chatBlockMain" Margin="0"/>
+            <RichTextBox Name="chatBlockMain" Margin="0" SelectionBrush="{x:Null}" IsEnabled="False"/>
         </ScrollViewer>
-        <Button Grid.Row="1" Grid.Column="2" Margin="0" Click="Button_Send" Foreground="Red" IsDefault="True" Height="26" Width="26" Panel.ZIndex="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <Button Grid.Row="1" Grid.Column="2" Margin="0,0,5,0" Click="Button_Send" Foreground="Red" IsDefault="True" Height="26" Width="26" Panel.ZIndex="1" HorizontalAlignment="Right" VerticalAlignment="Center">
             <Button.Background>
                 <ImageBrush ImageSource="send.png"/>
             </Button.Background>
         </Button>
         <Button Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="End Connection" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Click="Button_EndConnection"/>
-        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Name="textBoxUserInput" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Height="26px"/>
+        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Name="textBoxUserInput" Margin="5,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="26px" SelectionBrush="{x:Null}" VerticalContentAlignment="Center"/>
 
     </Grid>
 </Window>

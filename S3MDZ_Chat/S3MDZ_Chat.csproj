@@ -107,5 +107,10 @@
   <ItemGroup>
     <Resource Include="send.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\anon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

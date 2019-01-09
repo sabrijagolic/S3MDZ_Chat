@@ -21,6 +21,11 @@ namespace S3MDZ_Chat
     /// </summary>
     public partial class Chat : Window
     {
+        
+        BitmapImage bi;
+
+
+
         public Chat()
         {
             DiffieHellman.GenerateKey();            
@@ -28,14 +33,27 @@ namespace S3MDZ_Chat
             InitializeComponent();
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             scrollViewer.ScrollToBottom();
+            bi = new BitmapImage(new Uri(@"C:\Users\Ryker\source\repos\S3MDZ_Chat\S3MDZ_Chat\Assets\anon.png"));
+            
+            
+            
+
         }
 
         private void Button_Send(object sender, RoutedEventArgs e)
         {
-            chatBlockMain.Document.Blocks.Add(new Paragraph(new Run("\n Ja: " + textBoxUserInput.Text)));           
-            ConnectionManager.Send(AES.EncryptMessage(textBoxUserInput.Text));
-            textBoxUserInput.Text = "";
-            scrollViewer.ScrollToBottom();
+            if(textBoxUserInput.Text != "") {
+                
+                Run run = new Run(textBoxUserInput.Text);                                
+                Paragraph paragraph = new Paragraph(run);                
+                paragraph.TextAlignment = TextAlignment.Right;
+                paragraph.Background = Brushes.LightBlue;
+                paragraph.Padding = new Thickness(10,5,10,5);
+                chatBlockMain.Document.Blocks.Add(paragraph);           
+                //ConnectionManager.Send(AES.EncryptMessage(textBoxUserInput.Text));
+                textBoxUserInput.Text = "";
+                scrollViewer.ScrollToBottom();
+            }
 
         }
 
@@ -48,8 +66,17 @@ namespace S3MDZ_Chat
         {
             this.Dispatcher.Invoke(() =>
             {
-
-                chatBlockMain.Document.Blocks.Add(new Paragraph(new Run("\n  Neko: " + AES.DecryptMessage(message))));
+                Image image = new Image();
+                image.Source = bi;
+                image.Width = 25;
+                image.Height = 25;
+                InlineUIContainer container = new InlineUIContainer(image);
+                Run run = new Run(AES.DecryptMessage(message));
+                Paragraph paragraph = new Paragraph(run);
+                paragraph.TextAlignment = TextAlignment.Left;
+                paragraph.Background = Brushes.LightGray;
+                paragraph.Padding = new Thickness(10, 5, 10, 5);
+                chatBlockMain.Document.Blocks.Add(paragraph);
                 scrollViewer.ScrollToBottom();
             });
 
