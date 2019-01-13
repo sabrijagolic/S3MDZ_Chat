@@ -71,6 +71,10 @@ namespace S3MDZ_Chat.Encription
                 return false;
             }
         }
+        public static void SetAesToNull()
+        {
+            _aes = null;
+        }
 
     }
 }

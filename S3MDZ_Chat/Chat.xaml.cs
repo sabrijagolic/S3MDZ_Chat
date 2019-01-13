@@ -46,7 +46,9 @@ namespace S3MDZ_Chat
         {
             if(textBoxUserInput.Text != "") {
                 
-                Run run = new Run(textBoxUserInput.Text);                                
+                Run run = new Run(textBoxUserInput.Text);
+                run.FontSize = 14;
+                run.BaselineAlignment = BaselineAlignment.Center;
                 Paragraph paragraph = new Paragraph(run);                
                 paragraph.TextAlignment = TextAlignment.Right;
                 paragraph.Background = Brushes.LightBlue;
@@ -70,16 +72,22 @@ namespace S3MDZ_Chat
         {
             this.Dispatcher.Invoke(() =>
             {
+                
                 Image image = new Image();
                 image.Source = bi;
                 image.Width = 25;
                 image.Height = 25;
                 InlineUIContainer container = new InlineUIContainer(image);
                 Run run = new Run(AES.DecryptMessage(message));
-                Paragraph paragraph = new Paragraph(run);
+                run.FontSize = 14;
+                run.BaselineAlignment = BaselineAlignment.Center;
+                Paragraph paragraph = new Paragraph(container);
                 paragraph.TextAlignment = TextAlignment.Left;
                 paragraph.Background = Brushes.LightGray;
-                paragraph.Padding = new Thickness(10, 5, 10, 5);
+                paragraph.Padding = new Thickness(10, 5, 10, 5);                
+                var inlines = paragraph.Inlines;
+                inlines.Add("    ");
+                inlines.Add(run);                
                 chatBlockMain.Document.Blocks.Add(paragraph);
                 scrollViewer.ScrollToBottom();
             });

@@ -103,6 +103,7 @@ namespace S3MDZ_Chat.Connection
                         }
                         connectionUdp.Close();
                         udpClientListener.Close();
+                        AES.SetAesToNull();
                         StartNewChatInstance();
                         
                         
@@ -138,6 +139,7 @@ namespace S3MDZ_Chat.Connection
 
             connectionUdp.Close();
             udpClientListener.Close();
+            AES.SetAesToNull();
             
 
         }
