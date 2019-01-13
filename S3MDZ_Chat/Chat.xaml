@@ -25,7 +25,7 @@
                 <ImageBrush ImageSource="send.png"/>
             </Button.Background>
         </Button>
-        <Button Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="End Connection" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Click="Button_EndConnection"/>
+        <Button Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="End Connection" HorizontalAlignment="Center" Margin="0,15,0,0" VerticalAlignment="Top" Click="Button_EndConnection" Padding="5,3" Background="#FF5DFF00" Foreground="White" FontWeight="Bold"/>
         <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Name="textBoxUserInput" Margin="5,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="26px" SelectionBrush="{x:Null}" VerticalContentAlignment="Center"/>
 
     </Grid>
