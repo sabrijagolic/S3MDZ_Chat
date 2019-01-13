@@ -27,6 +27,9 @@ namespace S3MDZ_Chat.Connection
             if (connectionUdp == null)
             {
                 connectionUdp = new UdpClient();
+            } else if (connectionUdp.Client == null)
+            {
+                connectionUdp = new UdpClient();
             }
             ConnectionManager.guestIp = guestIp;
             ipEndPointReceive = new IPEndPoint(IPAddress.Parse(guestIp), 0);
