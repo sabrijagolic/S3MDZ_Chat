@@ -67,9 +67,10 @@ namespace S3MDZ_Chat
                 ConnectionLabel.Visibility = Visibility.Hidden;
                 Chat chat = new Chat(this);
                 chat.Show();
-                requestSending = true;
-                IPTextBox.Text = "";
+                requestSending = false;
+                IPTextBox.Text = "";                
                 ConnectButton.Content = "Connect";
+                HideProgressbar();
                 this.Hide();
             });
         }
