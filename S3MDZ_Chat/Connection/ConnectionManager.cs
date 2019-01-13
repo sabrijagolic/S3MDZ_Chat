@@ -21,6 +21,9 @@ namespace S3MDZ_Chat.Connection
         private static UdpClient udpClientListener;
         private static UdpClient udpGuestListener;
         private static Dictionary<string,Thread> threads;
+        private static Action StartNewChatInstance; 
+        
+        
 
         public static void StartChat(string guestIp)
         {
@@ -93,6 +96,16 @@ namespace S3MDZ_Chat.Connection
                     else if (message == "4")
                     {
                         MessageBox.Show("The guest has disconnected.");
+                        foreach (var thread in threads)
+                        {
+                            if (thread.Key.Equals("receive") && thread.Value.IsAlive)
+                                thread.Value.Abort();
+                        }
+                        connectionUdp.Close();
+                        udpClientListener.Close();
+                        StartNewChatInstance();
+                        
+                        
                     }
                     else
                     {
@@ -125,6 +138,7 @@ namespace S3MDZ_Chat.Connection
 
             connectionUdp.Close();
             udpClientListener.Close();
+            
 
         }
 
@@ -166,5 +180,11 @@ namespace S3MDZ_Chat.Connection
                 threads[action] = thread;
             }
         }
+
+        public static void EndCon(Action EndConnection)
+        {
+            StartNewChatInstance =  EndConnection;
+        }
+        
     }
 }

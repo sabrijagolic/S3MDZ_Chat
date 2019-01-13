@@ -36,6 +36,7 @@ namespace S3MDZ_Chat
             scrollViewer.ScrollToBottom();
             bi = new BitmapImage(new Uri("pack://application:,,,/Assets/anon.png"));
             this.mainWindow = mainWindow;
+            ConnectionManager.EndCon(EndConnection);
             
             
 
@@ -83,6 +84,15 @@ namespace S3MDZ_Chat
                 scrollViewer.ScrollToBottom();
             });
 
+        }
+        public void EndConnection()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                mainWindow.Show();
+                this.Close();
+            });
+            
         }
     }
 }
