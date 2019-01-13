@@ -23,10 +23,11 @@ namespace S3MDZ_Chat
     {
         
         BitmapImage bi;
+        MainWindow mainWindow;
 
 
 
-        public Chat()
+        public Chat(MainWindow mainWindow)
         {
             DiffieHellman.GenerateKey();            
             ConnectionManager.ReceiveMessage(MessageReceived);            
@@ -34,7 +35,7 @@ namespace S3MDZ_Chat
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             scrollViewer.ScrollToBottom();
             bi = new BitmapImage(new Uri(@"C:\Users\Ryker\source\repos\S3MDZ_Chat\S3MDZ_Chat\Assets\anon.png"));
-            
+            this.mainWindow = mainWindow;
             
             
 
@@ -50,7 +51,7 @@ namespace S3MDZ_Chat
                 paragraph.Background = Brushes.LightBlue;
                 paragraph.Padding = new Thickness(10,5,10,5);
                 chatBlockMain.Document.Blocks.Add(paragraph);           
-                //ConnectionManager.Send(AES.EncryptMessage(textBoxUserInput.Text));
+                ConnectionManager.Send(AES.EncryptMessage(textBoxUserInput.Text));
                 textBoxUserInput.Text = "";
                 scrollViewer.ScrollToBottom();
             }
@@ -59,7 +60,9 @@ namespace S3MDZ_Chat
 
         private void Button_EndConnection(object sender, RoutedEventArgs e)
         {
-
+            //ConnectionManager.EndConnection();           
+            //mainWindow.Show();
+            //this.Close();
         }
 
         private void MessageReceived(string message)

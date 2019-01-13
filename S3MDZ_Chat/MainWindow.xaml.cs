@@ -28,8 +28,8 @@ namespace S3MDZ_Chat
         public MainWindow()
         {                       
             InitializeComponent();
-            Chat chat = new Chat();
-            chat.Show();
+            //Chat chat = new Chat();
+            //chat.Show();
 
             ConnectionManager.ListenForRemoteGuest(StartChat, AcceptConnection, HideProgressbar);
         }
@@ -61,9 +61,9 @@ namespace S3MDZ_Chat
             {
                 ConnectionProgressBar.Visibility = Visibility.Hidden;
                 ConnectionLabel.Visibility = Visibility.Hidden;
-                Chat chat = new Chat();
+                Chat chat = new Chat(this);
                 chat.Show();
-                this.Close();
+                this.Hide();
             });
         }
 

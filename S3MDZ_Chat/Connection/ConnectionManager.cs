@@ -18,6 +18,7 @@ namespace S3MDZ_Chat.Connection
         private static bool waitForGuest = true;
         private static string guestIp = "";
         private static UdpClient connectionUdp;
+        private static UdpClient udpClientListener;
 
         public static void StartChat(string guestIp)
         {
@@ -51,6 +52,14 @@ namespace S3MDZ_Chat.Connection
                             {
                                 connectionUdp = new UdpClient();
                             }
+                            else
+                            {
+                                if(connectionUdp.Client == null)
+                                {
+                                    connectionUdp = new UdpClient();
+                                }
+                            }
+                            
                             IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
                             Byte[] sendBytes = Encoding.ASCII.GetBytes(choice);
                             connectionUdp.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
@@ -99,6 +108,9 @@ namespace S3MDZ_Chat.Connection
             IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
             Byte[] sendBytes = Encoding.ASCII.GetBytes("4");
             connectionUdp.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
+            connectionUdp.Close();
+            udpClientListener.Close();
+            
         }
 
         public static void Send(string text)
@@ -113,7 +125,7 @@ namespace S3MDZ_Chat.Connection
         {
             RunThread(() =>
             {
-                var udpClientListener = new UdpClient(11000);
+                udpClientListener = new UdpClient(11000);
                 while (true)
                 {
                     byte[] receiveBytes = udpClientListener.Receive(ref ipEndPointReceive);
