@@ -25,14 +25,19 @@ namespace S3MDZ_Chat
     {
 
         bool requestSending = false;
+
         public MainWindow()
         {                       
             InitializeComponent();
             //Chat chat = new Chat();
             //chat.Show();
-
             ConnectionManager.ListenForRemoteGuest(StartChat, AcceptConnection, HideProgressbar);
         }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+        }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

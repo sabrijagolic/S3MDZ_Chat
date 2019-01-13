@@ -19,6 +19,8 @@ namespace S3MDZ_Chat.Connection
         private static string guestIp = "";
         private static UdpClient connectionUdp;
         private static UdpClient udpClientListener;
+        private static UdpClient udpGuestListener;
+        private static Dictionary<string,Thread> threads;
 
         public static void StartChat(string guestIp)
         {
@@ -36,13 +38,17 @@ namespace S3MDZ_Chat.Connection
 
         public static void ListenForRemoteGuest(Action onChartStarted, Action<Action<string>> onRequestReceived, Action HideProgressBar)
         {
+            if (threads == null)
+            {
+                threads = new Dictionary<string, Thread>();
+            }
             RunThread(() =>
             {
-                var udpClientListener = new UdpClient(11001);
+                udpGuestListener = new UdpClient(11001);
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
                 while (true)
                 {
-                    byte[] data = udpClientListener.Receive(ref endPoint);
+                    byte[] data = udpGuestListener.Receive(ref endPoint);
                     string message = Encoding.ASCII.GetString(data);
                     guestIp = endPoint.Address.ToString();
                     if (message == "1")
@@ -96,7 +102,7 @@ namespace S3MDZ_Chat.Connection
                     }
 
                 }
-            });
+            }, "listen");
         }
 
         public static void EndConnection()
@@ -108,9 +114,15 @@ namespace S3MDZ_Chat.Connection
             IPEndPoint ipEndPointConnect = new IPEndPoint(IPAddress.Parse(guestIp), 11001);
             Byte[] sendBytes = Encoding.ASCII.GetBytes("4");
             connectionUdp.Send(sendBytes, sendBytes.Length, ipEndPointConnect);
+            foreach (var thread in threads)
+            {
+                if (thread.Key.Equals("receive") && thread.Value.IsAlive)
+                    thread.Value.Abort();
+            }
+
             connectionUdp.Close();
             udpClientListener.Close();
-            
+
         }
 
         public static void Send(string text)
@@ -133,16 +145,23 @@ namespace S3MDZ_Chat.Connection
                     string returnData = Encoding.ASCII.GetString(receiveBytes);
                     messageReceived(returnData.ToString());
                 }
-            });
+            }, "receive");
         }
 
-        private static void RunThread(Action callback)
+        private static void RunThread(Action callback, string action)
         {
             ThreadStart start = new ThreadStart(callback);
             Thread thread = new Thread(start);
             thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;
             thread.Start();
+            if(threads.Keys.FirstOrDefault(x => x.Equals(action)) == null)
+            {
+                threads.Add(action, thread);
+            } else
+            {
+                threads[action] = thread;
+            }
         }
     }
 }

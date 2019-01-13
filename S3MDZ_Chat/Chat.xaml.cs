@@ -34,7 +34,7 @@ namespace S3MDZ_Chat
             InitializeComponent();
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             scrollViewer.ScrollToBottom();
-            bi = new BitmapImage(new Uri(@"C:\Users\Ryker\source\repos\S3MDZ_Chat\S3MDZ_Chat\Assets\anon.png"));
+            // bi = new BitmapImage(new Uri(@"C:\Users\Ryker\source\repos\S3MDZ_Chat\S3MDZ_Chat\Assets\anon.png"));
             this.mainWindow = mainWindow;
             
             
@@ -60,9 +60,9 @@ namespace S3MDZ_Chat
 
         private void Button_EndConnection(object sender, RoutedEventArgs e)
         {
-            //ConnectionManager.EndConnection();           
-            //mainWindow.Show();
-            //this.Close();
+            ConnectionManager.EndConnection();
+            mainWindow.Show();
+            this.Close();
         }
 
         private void MessageReceived(string message)
