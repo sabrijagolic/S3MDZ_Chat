@@ -78,6 +78,7 @@ namespace S3MDZ_Chat
                 image.Width = 25;
                 image.Height = 25;
                 InlineUIContainer container = new InlineUIContainer(image);
+                container.BaselineAlignment = BaselineAlignment.Center;
                 Run run = new Run(AES.DecryptMessage(message));
                 run.FontSize = 14;
                 run.BaselineAlignment = BaselineAlignment.Center;

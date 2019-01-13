@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:S3MDZ_Chat"
         mc:Ignorable="d"
-        Title="Chat" MinHeight="450" MinWidth="800">
+        Title="Top secret chat" MinHeight="450" MinWidth="800" Icon="Assets/chat.png" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="8*" />            
